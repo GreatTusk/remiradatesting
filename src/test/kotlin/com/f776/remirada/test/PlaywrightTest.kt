@@ -1,6 +1,7 @@
 package com.f776.remirada.test
 
 import com.microsoft.playwright.Browser
+import com.microsoft.playwright.BrowserType
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.Playwright
 import kotlin.test.AfterTest
@@ -14,8 +15,9 @@ abstract class PlaywrightTest {
     @BeforeTest
     fun setup() {
         playwright = Playwright.create()
-        browser = playwright.chromium().launch()
+        browser = playwright.chromium().launch(BrowserType.LaunchOptions().setHeadless(false))
         page = browser.newPage()
+        page.setViewportSize(1280, 1000)
     }
 
     @AfterTest
