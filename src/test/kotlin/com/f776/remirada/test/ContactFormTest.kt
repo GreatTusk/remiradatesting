@@ -2,6 +2,9 @@ package com.f776.remirada.test
 
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.AriaRole
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import java.util.regex.Pattern
 import kotlin.test.Test
 import kotlin.test.assertFalse
@@ -30,19 +33,14 @@ class ContactFormTest : PlaywrightTest() {
         contactButton.click()
     }
 
-    private fun submitForm() {
-        val sendButton = page.getByRole(
-            AriaRole.BUTTON,
-            Page.GetByRoleOptions().setName(
-                Pattern.compile("Enviar consulta", Pattern.CASE_INSENSITIVE)
-            )
-        )
-
+    private suspend fun submitForm() {
+        val sendButton = page.locator("//*[@id=\":Re9kvfajta:\"]/div/div[2]/div/form/div[7]/button")
         sendButton.click()
+        delay(500)
     }
 
     @Test
-    fun `send form without filling fields`() {
+    fun `send form without filling fields`() = runBlocking {
         navigateToShopAndOpenForm()
         submitForm()
 
@@ -54,10 +52,10 @@ class ContactFormTest : PlaywrightTest() {
     }
 
     @Test
-    fun `send form filling name only`() {
+    fun `send form filling name only`() = runBlocking {
         navigateToShopAndOpenForm()
 
-        val nameInput = page.getByLabel("Ingrese su nombre:")
+        val nameInput = page.locator("//*[@id=\"nombre\"]")
         nameInput.fill("Test User")
 
         submitForm()
@@ -70,13 +68,13 @@ class ContactFormTest : PlaywrightTest() {
     }
 
     @Test
-    fun `send form filling all fields correctly`() {
+    fun `send form filling all fields correctly`() = runBlocking {
         navigateToShopAndOpenForm()
 
         val nameInput = page.getByLabel("Ingrese su nombre:")
         nameInput.fill("Test User")
 
-        val emailInput = page.getByLabel("Ingrese su correo:")
+        val emailInput = page.locator("//*[@id=\"email\"]")
         emailInput.fill("mymail@mail.com")
 
         val phoneInput = page.getByLabel("Ingrese su teléfono:")

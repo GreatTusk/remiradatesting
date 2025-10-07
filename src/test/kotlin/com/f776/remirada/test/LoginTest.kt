@@ -1,6 +1,8 @@
 package com.f776.remirada.test
 
 import com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -9,7 +11,9 @@ class LoginTest : PlaywrightTest() {
     private fun navigateToLoginScreen() {
         page.navigate(MiradaGarcia.BASE_URL)
 
-        val loginButton = page.locator("xpath=/html/body/div[1]/nav/div/div[1]/button[1]")
+        page.waitForSelector("xpath=//*[@id='auth-container']//button[1]")
+
+        val loginButton = page.locator("xpath=//*[@id='auth-container']//button[1]")
 
         page.waitForCondition {
             loginButton.isEnabled
@@ -19,11 +23,9 @@ class LoginTest : PlaywrightTest() {
             loginButton.isVisible
         }
 
-        assertTrue("Login button is not enabled") {
-            loginButton.isEnabled && loginButton.evaluate("el => el.tagName.toLowerCase() === 'button'") == true
-        }
-
         loginButton.click()
+
+        page.waitForURL("**/sign-in**")
 
         assertTrue("Page is not on login screen") {
             println(page.url())
@@ -31,21 +33,26 @@ class LoginTest : PlaywrightTest() {
         }
     }
 
-    private fun fillEmailAndContinue(email: String) {
+    private suspend fun fillEmailAndContinue(email: String) {
         val emailInput = page.locator("#identifier-field")
         emailInput.fill(email)
 
         val continueButton =
             page.locator("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/div[2]/button")
         continueButton.click()
+        delay(800)
     }
 
     @Test
-    fun `login with external provider`() {
+    fun `login with external provider`() = runBlocking {
         navigateToLoginScreen()
 
         val googleButton = page.locator("button[class*='button__google']")
         googleButton.click()
+
+        delay(1000)
+
+        page.waitForURL("**accounts.google.com**")
 
         assertTrue("Page did not navigate to Google OAuth") {
             page.url().contains("accounts.google.com/o/oauth2/auth")
@@ -53,7 +60,7 @@ class LoginTest : PlaywrightTest() {
     }
 
     @Test
-    fun `login with email and password`() {
+    fun `login with email and password`() = runBlocking {
         navigateToLoginScreen()
 
         fillEmailAndContinue("refriappnoreply@gmail.com")
@@ -61,8 +68,12 @@ class LoginTest : PlaywrightTest() {
         val passwordField = page.locator("#password-field")
         passwordField.fill("Contrasena.123LOL")
 
+        page.waitForSelector("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/button[2]")
+
         val signInButton = page.locator("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/button[2]")
         signInButton.click()
+
+        delay(1000)
 
         assertTrue("User is not logged in") {
             page.url() == MiradaGarcia.BASE_URL + "/"
@@ -70,7 +81,7 @@ class LoginTest : PlaywrightTest() {
     }
 
     @Test
-    fun `login with invalid credentials shows error`() {
+    fun `login with invalid credentials shows error`() = runBlocking {
         navigateToLoginScreen()
 
         fillEmailAndContinue("mymail@mail.com")
@@ -85,13 +96,20 @@ class LoginTest : PlaywrightTest() {
     }
 
     @Test
-    fun `login with incorrect password`() {
+    fun `login with incorrect password`() = runBlocking {
         navigateToLoginScreen()
 
         fillEmailAndContinue("refriappnoreply@gmail.com")
 
         val passwordField = page.locator("#password-field")
         passwordField.fill("Contrasena.123")
+
+        page.waitForSelector("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/button[2]")
+
+        val signInButton = page.locator("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/button[2]")
+        signInButton.click()
+
+        delay(500)
 
         val errorMessage = page.locator("#error-password")
 

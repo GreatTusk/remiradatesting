@@ -1,5 +1,5 @@
 package com.f776.remirada.test
 
 object MiradaGarcia {
-    const val BASE_URL = "https://re-mirada-garcia.vercel.app"
+    const val BASE_URL = "http://localhost:3000"
 }
