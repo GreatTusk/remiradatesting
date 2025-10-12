@@ -1,5 +1,7 @@
 package com.f776.remirada.test
 
 internal object MiradaGarcia {
-    const val BASE_URL = "http://localhost:3000"
+    val BASE_URL by lazy {
+        System.getenv("BASE_URL") ?: "http://localhost:3000"
+    }
 }

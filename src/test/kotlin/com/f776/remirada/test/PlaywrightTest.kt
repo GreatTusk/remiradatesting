@@ -12,12 +12,24 @@ abstract class PlaywrightTest {
     private lateinit var browser: Browser
     protected lateinit var page: Page
 
+    private companion object {
+        private val OPEN_BROWSER by lazy {
+            System.getenv("OPEN_BROWSER")?.toBoolean() ?: false
+        }
+        private val BROWSER_WIDTH by lazy {
+            System.getenv("BROWSER_WIDTH")?.toIntOrNull() ?: 1280
+        }
+        private val BROWSER_HEIGHT by lazy {
+            System.getenv("BROWSER_HEIGHT")?.toIntOrNull() ?: 1000
+        }
+    }
+
     @BeforeTest
     fun setup() {
         playwright = Playwright.create()
-        browser = playwright.chromium().launch(BrowserType.LaunchOptions().setHeadless(false))
+        browser = playwright.chromium().launch(BrowserType.LaunchOptions().setHeadless(!OPEN_BROWSER))
         page = browser.newPage()
-        page.setViewportSize(1280, 1000)
+        page.setViewportSize(BROWSER_WIDTH, BROWSER_HEIGHT)
     }
 
     @AfterTest
