@@ -4,6 +4,7 @@ import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.AriaRole
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import java.nio.file.Paths
 import java.util.regex.Pattern
 import kotlin.test.Test
 import kotlin.test.assertFalse
@@ -19,6 +20,8 @@ class ContactFormTest : PlaywrightTest() {
             "¡Uy! El número de teléfono debe tener 9 dígitos.",
             "¡Uy! La consulta debe tener al menos 10 caracteres."
         )
+
+        const val SCREENSHOT_DIR = "src/test/resources/contactformtest"
     }
 
     private fun navigateToShopAndOpenForm() {
@@ -44,7 +47,8 @@ class ContactFormTest : PlaywrightTest() {
     fun `send form without filling fields`() = runBlocking {
         navigateToShopAndOpenForm()
         submitForm()
-
+        // Take screenshot after submitting form
+        page.screenshot(Page.ScreenshotOptions().setPath(Paths.get("$SCREENSHOT_DIR/send_form_without_filling_fields.png")))
         errorMessages.forEach {
             assertTrue("Error message '$it' was not visible") {
                 page.locator("text=$it").isVisible
@@ -60,7 +64,8 @@ class ContactFormTest : PlaywrightTest() {
         nameInput.fill("Test User")
 
         submitForm()
-
+        // Take screenshot after submitting form
+        page.screenshot(Page.ScreenshotOptions().setPath(Paths.get("$SCREENSHOT_DIR/send_form_filling_name_only.png")))
         errorMessages.sliceArray(1 until errorMessages.size).forEach {
             assertTrue("Error message '$it' was not visible") {
                 page.locator("text=$it").isVisible
@@ -85,7 +90,8 @@ class ContactFormTest : PlaywrightTest() {
         messageInput.fill("This is a test message for the contact form.")
 
         submitForm()
-
+        // Take screenshot after submitting form
+        page.screenshot(Page.ScreenshotOptions().setPath(Paths.get("$SCREENSHOT_DIR/send_form_filling_all_fields_correctly.png")))
         val errorMessages = listOf(
             "¡Uy! El nombre no es válido.",
             "¡Uy! Por favor, ingrese un correo válido.",

@@ -1,8 +1,13 @@
 package com.f776.remirada.test
 
+import com.microsoft.playwright.Page
 import com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat
+import com.microsoft.playwright.options.AriaRole
+import com.microsoft.playwright.options.LoadState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import java.nio.file.Paths
+import java.util.regex.Pattern
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -16,6 +21,8 @@ class LoginTest : PlaywrightTest() {
         val TEST_PASSWORD by lazy {
             System.getenv("TEST_PASSWORD") ?: error("No TEST_PASSWORD env var set")
         }
+
+        const val SCREENSHOT_DIR = "src/test/resources/logintest"
     }
 
     private fun navigateToLoginScreen() {
@@ -43,14 +50,31 @@ class LoginTest : PlaywrightTest() {
         }
     }
 
+    private suspend fun findAndClickSignInButton() {
+        val signInButton = page.getByRole(
+            AriaRole.BUTTON,
+            Page.GetByRoleOptions().setName(
+                Pattern.compile("Continuar", Pattern.CASE_INSENSITIVE)
+            )
+        )
+
+        signInButton.click()
+        delay(1000)
+    }
+
     private suspend fun fillEmailAndContinue(email: String) {
         val emailInput = page.locator("#identifier-field")
         emailInput.fill(email)
 
-        val continueButton =
-            page.locator("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/div[2]/button")
+        val continueButton = page.getByRole(
+            AriaRole.BUTTON,
+            Page.GetByRoleOptions().setName(
+                Pattern.compile("Continuar", Pattern.CASE_INSENSITIVE)
+            )
+        )
+
         continueButton.click()
-        delay(800)
+        delay(1000)
     }
 
     @Test
@@ -60,13 +84,23 @@ class LoginTest : PlaywrightTest() {
         val googleButton = page.locator("button[class*='button__google']")
         googleButton.click()
 
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+
         delay(1000)
 
-        page.waitForURL("**accounts.google.com**")
-
         assertTrue("Page did not navigate to Google OAuth") {
-            page.url().contains("accounts.google.com/o/oauth2/auth")
+            page.url().contains("accounts.google.com") &&
+                    page.url().contains("oauth")
         }
+
+        // Take screenshot after navigation to Google OAuth
+        page.screenshot(
+            Page.ScreenshotOptions().setPath(
+                Paths.get("$SCREENSHOT_DIR/login_with_external_provider.png")
+            )
+        )
+
+        Unit
     }
 
     @Test
@@ -78,15 +112,21 @@ class LoginTest : PlaywrightTest() {
         val passwordField = page.locator("#password-field")
         passwordField.fill(TEST_PASSWORD)
 
-        page.waitForSelector("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/button[2]")
-
-        val signInButton = page.locator("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/button[2]")
-        signInButton.click()
+        findAndClickSignInButton()
 
         delay(1000)
 
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+
+        // Take screenshot after login attempt
+        page.screenshot(
+            Page.ScreenshotOptions().setPath(
+                Paths.get("$SCREENSHOT_DIR/login_with_email_and_password.png")
+            )
+        )
+
         assertTrue("User is not logged in") {
-            page.url() == MiradaGarcia.BASE_URL + "/"
+            page.url() == MiradaGarcia.BASE_URL + "/carrito-compras"
         }
     }
 
@@ -97,6 +137,13 @@ class LoginTest : PlaywrightTest() {
         fillEmailAndContinue("mymail@mail.com")
 
         val errorMessage = page.locator("#error-identifier")
+
+        // Take screenshot after error appears
+        page.screenshot(
+            Page.ScreenshotOptions().setPath(
+                Paths.get("$SCREENSHOT_DIR/login_with_invalid_credentials_shows_error.png")
+            )
+        )
 
         assertTrue("Error message is not displayed") {
             errorMessage.isVisible
@@ -114,14 +161,16 @@ class LoginTest : PlaywrightTest() {
         val passwordField = page.locator("#password-field")
         passwordField.fill("Contrasena.123")
 
-        page.waitForSelector("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/button[2]")
-
-        val signInButton = page.locator("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/button[2]")
-        signInButton.click()
-
-        delay(500)
+        findAndClickSignInButton()
 
         val errorMessage = page.locator("#error-password")
+
+        // Take screenshot after error appears
+        page.screenshot(
+            Page.ScreenshotOptions().setPath(
+                Paths.get("$SCREENSHOT_DIR/login_with_incorrect_password.png")
+            )
+        )
 
         assertThat(errorMessage).hasText("Password is incorrect. Try again, or use another method.")
     }

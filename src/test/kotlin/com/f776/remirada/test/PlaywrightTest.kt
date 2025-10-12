@@ -14,7 +14,7 @@ abstract class PlaywrightTest {
 
     private companion object {
         private val OPEN_BROWSER by lazy {
-            System.getenv("OPEN_BROWSER")?.toBoolean() ?: false
+            System.getenv("OPEN_BROWSER")?.toBoolean() ?: true
         }
         private val BROWSER_WIDTH by lazy {
             System.getenv("BROWSER_WIDTH")?.toIntOrNull() ?: 1280
