@@ -8,6 +8,16 @@ import kotlin.test.assertTrue
 
 class LoginTest : PlaywrightTest() {
 
+    private companion object {
+        val TEST_EMAIL by lazy {
+            System.getenv("TEST_EMAIL") ?: error("No TEST_EMAIL env var set")
+        }
+
+        val TEST_PASSWORD by lazy {
+            System.getenv("TEST_PASSWORD") ?: error("No TEST_PASSWORD env var set")
+        }
+    }
+
     private fun navigateToLoginScreen() {
         page.navigate(MiradaGarcia.BASE_URL)
 
@@ -63,10 +73,10 @@ class LoginTest : PlaywrightTest() {
     fun `login with email and password`() = runBlocking {
         navigateToLoginScreen()
 
-        fillEmailAndContinue("refriappnoreply@gmail.com")
+        fillEmailAndContinue(TEST_EMAIL)
 
         val passwordField = page.locator("#password-field")
-        passwordField.fill("Contrasena.123LOL")
+        passwordField.fill(TEST_PASSWORD)
 
         page.waitForSelector("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/button[2]")
 
@@ -99,7 +109,7 @@ class LoginTest : PlaywrightTest() {
     fun `login with incorrect password`() = runBlocking {
         navigateToLoginScreen()
 
-        fillEmailAndContinue("refriappnoreply@gmail.com")
+        fillEmailAndContinue(TEST_EMAIL)
 
         val passwordField = page.locator("#password-field")
         passwordField.fill("Contrasena.123")

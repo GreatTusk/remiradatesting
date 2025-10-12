@@ -4,7 +4,6 @@ import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.AriaRole
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runTest
 import java.util.regex.Pattern
 import kotlin.test.Test
 import kotlin.test.assertFalse
@@ -13,12 +12,14 @@ import kotlin.test.assertTrue
 
 class ContactFormTest : PlaywrightTest() {
 
-    private val errorMessages = arrayOf(
-        "¡Uy! El nombre no es válido.",
-        "¡Uy! Por favor, ingrese un correo válido.",
-        "¡Uy! El número de teléfono debe tener 9 dígitos.",
-        "¡Uy! La consulta debe tener al menos 10 caracteres."
-    )
+    private companion object {
+        val errorMessages = arrayOf(
+            "¡Uy! El nombre no es válido.",
+            "¡Uy! Por favor, ingrese un correo válido.",
+            "¡Uy! El número de teléfono debe tener 9 dígitos.",
+            "¡Uy! La consulta debe tener al menos 10 caracteres."
+        )
+    }
 
     private fun navigateToShopAndOpenForm() {
         page.navigate("${MiradaGarcia.BASE_URL}/tienda")
