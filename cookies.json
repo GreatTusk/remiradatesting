@@ -1,0 +1,92 @@
+[
+    {
+        "domain": "localhost",
+        "expirationDate": 1791849477,
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "__clerk_db_jwt",
+        "path": "/",
+        "sameSite": "lax",
+        "secure": false,
+        "session": false,
+        "storeId": null,
+        "value": "dvb_33qQlVFClNetyZAbh9QXXyQOVsW"
+    },
+    {
+        "domain": "localhost",
+        "expirationDate": 1791849477,
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "__clerk_db_jwt_hvFFG8rj",
+        "path": "/",
+        "sameSite": "lax",
+        "secure": false,
+        "session": false,
+        "storeId": null,
+        "value": "dvb_33qQlVFClNetyZAbh9QXXyQOVsW"
+    },
+    {
+        "domain": "localhost",
+        "expirationDate": 1791849481,
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "__client_uat_hvFFG8rj",
+        "path": "/",
+        "sameSite": "strict",
+        "secure": false,
+        "session": false,
+        "storeId": null,
+        "value": "1760313475"
+    },
+    {
+        "domain": "localhost",
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "clerk_active_context",
+        "path": "/",
+        "sameSite": null,
+        "secure": true,
+        "session": true,
+        "storeId": null,
+        "value": "sess_33zISiSoSlw2kimeVTJCJ0XcYG5:"
+    },
+    {
+        "domain": "localhost",
+        "expirationDate": 1791849481,
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "__session",
+        "path": "/",
+        "sameSite": "lax",
+        "secure": false,
+        "session": false,
+        "storeId": null,
+        "value": "eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18yZ0FSVTljRTBpRkIzdzFpSFNGSkdjTmRKdGEiLCJ0eXAiOiJKV1QifQ.eyJhenAiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJleHAiOjE3NjAzMTM1MzYsImZ2YSI6WzAsLTFdLCJpYXQiOjE3NjAzMTM0NzYsImlzcyI6Imh0dHBzOi8vY2FsbS1yb3VnaHktMS5jbGVyay5hY2NvdW50cy5kZXYiLCJqdGkiOiJhYzM3YTNmYWZiNGMxMTRhZDM5MCIsIm1ldGFkYXRhIjp7fSwibmJmIjoxNzYwMzEzNDY2LCJzaWQiOiJzZXNzXzMzeklTaVNvU2x3MmtpbWVWVEpDSjBYY1lHNSIsInN0cyI6ImFjdGl2ZSIsInN1YiI6InVzZXJfMzN6SVNpVk1tdW1CZ1hBeEJVYnZuNmxud240In0.P1TMLMPW7B7m89mW2Vuh7oCIZNZqTV6XbK8CdfzK5k4Fd82hdystn6PPdzrGNZ-BxMcpm5Z5FxiWmCbA6sS9tGqW8pTLT3h1cEMU71O0_YcmI87_Ki_9bpgO_EmRAPfjj4qswtcoULq3vM9GRuF4pPoU9nNmRtO2KV3EYrBkH2MK633L-fV_vfUcp5-BxaUcuhICnYXuXV2EoE-31xfriXSR3I5-fLNW4WPj9wDMiXrbZ8Ike8J2cN9UY_3SJRC98anDo2VgCtd_llz9N_Zt_PYmYcmEWOya4zGzAHCLgaGL-7Bz6y1jw6Q6ev7TLrsewcTW0j8W6gApQuZWShciQQ"
+    },
+    {
+        "domain": "localhost",
+        "expirationDate": 1791849481,
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "__session_hvFFG8rj",
+        "path": "/",
+        "sameSite": "lax",
+        "secure": false,
+        "session": false,
+        "storeId": null,
+        "value": "eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18yZ0FSVTljRTBpRkIzdzFpSFNGSkdjTmRKdGEiLCJ0eXAiOiJKV1QifQ.eyJhenAiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJleHAiOjE3NjAzMTM1MzYsImZ2YSI6WzAsLTFdLCJpYXQiOjE3NjAzMTM0NzYsImlzcyI6Imh0dHBzOi8vY2FsbS1yb3VnaHktMS5jbGVyay5hY2NvdW50cy5kZXYiLCJqdGkiOiJhYzM3YTNmYWZiNGMxMTRhZDM5MCIsIm1ldGFkYXRhIjp7fSwibmJmIjoxNzYwMzEzNDY2LCJzaWQiOiJzZXNzXzMzeklTaVNvU2x3MmtpbWVWVEpDSjBYY1lHNSIsInN0cyI6ImFjdGl2ZSIsInN1YiI6InVzZXJfMzN6SVNpVk1tdW1CZ1hBeEJVYnZuNmxud240In0.P1TMLMPW7B7m89mW2Vuh7oCIZNZqTV6XbK8CdfzK5k4Fd82hdystn6PPdzrGNZ-BxMcpm5Z5FxiWmCbA6sS9tGqW8pTLT3h1cEMU71O0_YcmI87_Ki_9bpgO_EmRAPfjj4qswtcoULq3vM9GRuF4pPoU9nNmRtO2KV3EYrBkH2MK633L-fV_vfUcp5-BxaUcuhICnYXuXV2EoE-31xfriXSR3I5-fLNW4WPj9wDMiXrbZ8Ike8J2cN9UY_3SJRC98anDo2VgCtd_llz9N_Zt_PYmYcmEWOya4zGzAHCLgaGL-7Bz6y1jw6Q6ev7TLrsewcTW0j8W6gApQuZWShciQQ"
+    },
+    {
+        "domain": "localhost",
+        "expirationDate": 1791849481,
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "__client_uat",
+        "path": "/",
+        "sameSite": "strict",
+        "secure": false,
+        "session": false,
+        "storeId": null,
+        "value": "1760313475"
+    }
+]
