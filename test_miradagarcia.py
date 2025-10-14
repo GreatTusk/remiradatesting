@@ -148,7 +148,6 @@ def test_tyc():
 
         # Ir a la página principal y scrollea hasta el final de la página
         page.goto("http://localhost:3000/")
-        home = page.url
         page.wait_for_load_state("load")
         page.keyboard.press('End')
         page.wait_for_selector('footer')
@@ -197,7 +196,6 @@ def test_conciertos():
 
         # Ir a la página principal y scrollea hasta el final de la página
         page.goto("http://localhost:3000/")
-        home = page.url
         page.wait_for_load_state("load")
         page.keyboard.press('End')
         page.wait_for_selector('footer')
@@ -217,7 +215,6 @@ def test_retratos():
 
         # Ir a la página principal y scrollea hasta el final de la página
         page.goto("http://localhost:3000/")
-        home = page.url
         page.wait_for_load_state("load")
         page.keyboard.press('End')
         page.wait_for_selector('footer')
