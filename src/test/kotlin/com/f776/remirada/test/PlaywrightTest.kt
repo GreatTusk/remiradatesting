@@ -8,7 +8,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
 abstract class PlaywrightTest {
-    private lateinit var playwright: Playwright
+    protected lateinit var playwright: Playwright
     private lateinit var browser: Browser
     protected lateinit var page: Page
 

@@ -17,7 +17,10 @@ abstract class AuthPlaywrightTest {
     fun setup() {
         authPlaywright = Playwright.create()
 
-        val authFilePath = Path.of("auth-state.json")
+        val filename = "auth-state.json"
+        val authFilePath = Path.of(System.getProperty("user.dir"), filename)
+
+
         val contextOptions = Browser.NewContextOptions().setStorageStatePath(authFilePath)
 
         val launchOptions = BrowserType.LaunchOptions().setHeadless(false)

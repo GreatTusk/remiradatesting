@@ -1,12 +1,12 @@
 package com.rediego0.remirada.test
 
 import com.f776.remirada.test.MiradaGarcia
+import com.f776.remirada.test.PlaywrightTest
 import com.microsoft.playwright.BrowserContext
 import kotlin.test.Test
 import java.nio.file.Path
 
-class AuthSetup : AuthPlaywrightTest(){
-    // Lógica de login copiada a lo cochino nomás y que pasa
+class AuthSetup : PlaywrightTest(){
     private fun navigateToLoginScreen() {
 
         page.navigate(MiradaGarcia.BASE_URL + "/sign-in")
@@ -29,7 +29,7 @@ class AuthSetup : AuthPlaywrightTest(){
     fun `save authenticated state`(){
         navigateToLoginScreen()
 
-        fillEmailAndContinue("refriappnoreply@gmail.com")
+        fillEmailAndContinue("vevob80166@gamegta.com")
 
         val passwordField = page.locator("#password-field")
         passwordField.fill("Contrasena.123LOL")
@@ -42,7 +42,7 @@ class AuthSetup : AuthPlaywrightTest(){
         page.waitForURL(MiradaGarcia.BASE_URL)
 
         val filename = "auth-state.json"
-        val pathObject = Path.of(filename)
+        val pathObject = Path.of(System.getProperty("user.dir"), filename)
         val context: BrowserContext = page.context()
         context.storageState(BrowserContext.StorageStateOptions().setPath(pathObject))
 
