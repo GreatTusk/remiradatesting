@@ -1,5 +1,7 @@
 package com.f776.remirada.test
 
+import com.f776.remirada.test.data.LoginTestData
+import com.f776.remirada.test.utils.TestDataLoader
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat
 import com.microsoft.playwright.options.AriaRole
@@ -23,6 +25,8 @@ class LoginTest : PlaywrightTest() {
         }
 
         const val SCREENSHOT_DIR = "src/test/resources/logintest"
+
+        val testData = TestDataLoader.loadTestData<LoginTestData>("login-test-data.json")
     }
 
     private fun navigateToLoginScreen() {
@@ -134,7 +138,7 @@ class LoginTest : PlaywrightTest() {
     fun `login with invalid credentials shows error`() = runBlocking {
         navigateToLoginScreen()
 
-        fillEmailAndContinue("mymail@mail.com")
+        fillEmailAndContinue(testData.invalidEmail)
 
         val errorMessage = page.locator("#error-identifier")
 
@@ -159,7 +163,7 @@ class LoginTest : PlaywrightTest() {
         fillEmailAndContinue(TEST_EMAIL)
 
         val passwordField = page.locator("#password-field")
-        passwordField.fill("Contrasena.123")
+        passwordField.fill(testData.incorrectPassword)
 
         findAndClickSignInButton()
 

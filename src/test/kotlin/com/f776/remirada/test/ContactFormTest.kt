@@ -1,5 +1,7 @@
 package com.f776.remirada.test
 
+import com.f776.remirada.test.data.ContactFormTestData
+import com.f776.remirada.test.utils.TestDataLoader
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.AriaRole
 import kotlinx.coroutines.delay
@@ -22,6 +24,8 @@ class ContactFormTest : PlaywrightTest() {
         )
 
         const val SCREENSHOT_DIR = "src/test/resources/contactformtest"
+
+        val testData = TestDataLoader.loadTestData<ContactFormTestData>("contact-form-test-data.json")
     }
 
     private fun navigateToShopAndOpenForm() {
@@ -61,7 +65,7 @@ class ContactFormTest : PlaywrightTest() {
         navigateToShopAndOpenForm()
 
         val nameInput = page.locator("//*[@id=\"nombre\"]")
-        nameInput.fill("Test User")
+        nameInput.fill(testData.validForm.name)
 
         submitForm()
         // Take screenshot after submitting form
@@ -78,16 +82,16 @@ class ContactFormTest : PlaywrightTest() {
         navigateToShopAndOpenForm()
 
         val nameInput = page.getByLabel("Ingrese su nombre:")
-        nameInput.fill("Test User")
+        nameInput.fill(testData.validForm.name)
 
         val emailInput = page.locator("//*[@id=\"email\"]")
-        emailInput.fill("mymail@mail.com")
+        emailInput.fill(testData.validForm.email)
 
         val phoneInput = page.getByLabel("Ingrese su teléfono:")
-        phoneInput.fill("912345678")
+        phoneInput.fill(testData.validForm.phone)
 
         val messageInput = page.getByLabel("Ingrese su consulta:")
-        messageInput.fill("This is a test message for the contact form.")
+        messageInput.fill(testData.validForm.message)
 
         submitForm()
         // Take screenshot after submitting form

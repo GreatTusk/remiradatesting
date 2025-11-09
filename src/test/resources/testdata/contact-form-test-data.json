@@ -1,0 +1,9 @@
+{
+  "validForm": {
+    "name": "Test User",
+    "email": "mymail@mail.com",
+    "phone": "912345678",
+    "message": "This is a test message for the contact form."
+  }
+}
+

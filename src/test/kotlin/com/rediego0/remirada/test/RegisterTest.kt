@@ -2,6 +2,8 @@ package com.rediego0.remirada.test
 
 import com.f776.remirada.test.MiradaGarcia
 import com.f776.remirada.test.PlaywrightTest
+import com.f776.remirada.test.data.RegisterTestData
+import com.f776.remirada.test.utils.TestDataLoader
 import com.microsoft.playwright.APIRequest
 import com.microsoft.playwright.APIRequestContext
 import com.microsoft.playwright.Page
@@ -13,8 +15,9 @@ class RegisterTest : PlaywrightTest() {
 
     val SCREENSHOT_DIR = "src/test/resources/registertest"
 
-    private val TEST_PASSWORD = "Contrasena.123xD"
-    private val TEST_SENDR_BASE_URL = "https://api.testsendr.link"
+    private companion object {
+        val testData = TestDataLoader.loadTestData<RegisterTestData>("register-test-data.json")
+    }
 
     private lateinit var currentTestEmail: String
 
@@ -38,14 +41,14 @@ class RegisterTest : PlaywrightTest() {
     private fun getApiContext(playwright: Playwright): APIRequestContext {
         return playwright.request().newContext(
             APIRequest.NewContextOptions()
-                .setBaseURL(TEST_SENDR_BASE_URL)
+                .setBaseURL(testData.sendrBaseUrl)
         )
     }
 
     private fun waitForVerificationCode(apiContext: APIRequestContext, maxWaitMillis: Long = 60000): String {
         val startTime = System.currentTimeMillis()
         val apiUrl = "/?email=$currentTestEmail"
-        println("Searching for email: $currentTestEmail at $TEST_SENDR_BASE_URL$apiUrl")
+        println("Searching for email: $currentTestEmail at ${testData.sendrBaseUrl}$apiUrl")
 
         while (System.currentTimeMillis() - startTime < maxWaitMillis) {
             val response = apiContext.get(apiUrl)
@@ -73,7 +76,7 @@ class RegisterTest : PlaywrightTest() {
         val apiContext = getApiContext(playwright)
 
         navigateToLoginScreen()
-        fillEmailAndPassword(currentTestEmail, TEST_PASSWORD)
+        fillEmailAndPassword(currentTestEmail, testData.testPassword)
 
         val continueButton =
             page.locator("xpath=/html/body/div[1]/div[1]/div[2]/div/div/div[1]/div[2]/form/div[2]/div[2]/button")
