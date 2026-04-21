@@ -179,4 +179,31 @@ class LoginTest : PlaywrightTest() {
         assertThat(errorMessage).hasText("Password is incorrect. Try again, or use another method.")
     }
 
+    @Test
+    fun `assert auth background image loads within 200ms on login screen`() = runBlocking {
+        var responseDuration: Double = -1.0
+
+        // 1. Set up the listener BEFORE the action that triggers the request
+        page.onRequestFinished { request ->
+            if (request.url().contains("auth_bg.jpeg")) {
+                val timing = request.timing()
+                responseDuration = timing.responseEnd - timing.requestStart
+            }
+        }
+
+        // 2. Trigger the action (navigation)
+        page.navigate("${MiradaGarcia.BASE_URL}/sign-in")
+
+        // 3. Wait for the page's network traffic to finish.
+        // This guarantees the image has fully downloaded and the listener has fired.
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+
+        println("Auth background image load duration: ${responseDuration}ms")
+
+        // 4. Assert the performance threshold
+        assertTrue("Background image took too long to load: ${responseDuration}ms") {
+            responseDuration in 0.0..200.0
+        }
+    }
+
 }
